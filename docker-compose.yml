@@ -1,0 +1,18 @@
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules  # Create a named volume for node_modules inside the container, because it's not on the local machine
+      - .:/app  # Mount the local directory to /app in the container, syncing project files
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"]
